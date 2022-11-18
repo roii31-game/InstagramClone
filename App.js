@@ -1,23 +1,44 @@
-import { StatusBar } from "expo-status-bar";
+import * as React from "react";
 import {
+  Image,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  ScrollView,
-  Image,
 } from "react-native";
-import * as React from "react";
 
 // Basic reusable components
 
-const Avatar = (props) => {
-  <Image style={styles.avatar} source={{ uri: props.uri }} />;
-};
+const Avatar = (props) => (
+  <Image style={styles.avatar} source={{ uri: props.url }} />
+);
 
 const Heading = (props) => <Text style={styles.heading}>{props.children}</Text>;
 
 const Title = (props) => <Text style={styles.title}>{props.children}</Text>;
+
+const styles = StyleSheet.create({
+  avatar: {
+    height: 64,
+    width: 64,
+    borderRadius: "50%",
+  },
+  heading: {
+    fontWeight: "600",
+    fontSize: 20,
+    paddingTop: 20,
+    paddingBottom: 12,
+    paddingHorizontal: 24,
+    color: "#08060B",
+  },
+  title: {
+    color: "#280D5F",
+    fontSize: 12,
+    fontWeight: "600",
+    textTransform: "Uppercase",
+  },
+});
 
 // App-specific components
 
@@ -80,14 +101,13 @@ const woofPostStyles = StyleSheet.create({
   },
 });
 
-// The screen rendering everything!!!
-
+// The screen rendering everything
 const HomeScreen = () => (
   <ScrollView>
     <Heading>Trending Woofs</Heading>
     <ScrollView horizontal>
-      {data.woofs.map((woofs) => (
-        <WoofCard key={woofs.id} name={woofs.name} avatar={woofs.avatar} />
+      {data.woofs.map((woof) => (
+        <WoofCard key={woof.id} name={woof.name} avatar={woof.avatar} />
       ))}
     </ScrollView>
     <Heading>New Woof Post</Heading>
@@ -102,38 +122,15 @@ const HomeScreen = () => (
   </ScrollView>
 );
 
-export default function App() {
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FAF9FA" }}>
-      <HomeScreen />
-    </SafeAreaView>
-  );
-}
+const App = () => (
+  <SafeAreaView style={{ flex: 1, backgroundColor: "#FAF9FA" }}>
+    <HomeScreen />
+  </SafeAreaView>
+);
 
-const styles = StyleSheet.create({
-  avatar: {
-    height: 64,
-    width: 64,
-    borderRadius: "50%",
-  },
-  heading: {
-    fontWeight: "600",
-    fontSize: 20,
-    paddingTop: 20,
-    paddingBottom: 12,
-    paddingHorizontal: 24,
-    color: "#08060B",
-  },
-  title: {
-    color: "#280D5F",
-    fontSize: 12,
-    fontWeight: "600",
-    textTransform: "Uppercase",
-  },
-});
+export default App;
 
-// API Data to gather images
-
+// "Fake" API data to use in your app
 const data = {
   woofs: [
     {

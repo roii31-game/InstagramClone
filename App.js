@@ -1,4 +1,8 @@
 import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import {
   Image,
   SafeAreaView,
@@ -6,9 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
 } from "react-native";
-
-// Basic reusable components
 
 const Avatar = (props) => (
   <Image style={styles.avatar} source={{ uri: props.url }} />
@@ -17,6 +20,97 @@ const Avatar = (props) => (
 const Heading = (props) => <Text style={styles.heading}>{props.children}</Text>;
 
 const Title = (props) => <Text style={styles.title}>{props.children}</Text>;
+
+const Tab = createBottomTabNavigator();
+
+const HomeScreen = () => {
+  return (
+    <View style={LoginStyles.layout}>
+      <Text style={LoginStyles.title}>Coming Soon</Text>
+    </View>
+  );
+};
+
+const HomeShowing = () => {
+  return (
+    <View style={LoginStyles.layout}>
+      <HomeFeed />
+    </View>
+  );
+};
+
+const FeedScreen = () => {
+  return (
+    <View style={LoginStyles.layout}>
+      <Text style={LoginStyles.title}>Coming Soon</Text>
+    </View>
+  );
+};
+
+const CatalogScreen = () => {
+  return (
+    <View style={LoginStyles.layout}>
+      <Text style={LoginStyles.title}>Coming Soon</Text>
+    </View>
+  );
+};
+
+const AccountScreen = () => {
+  return (
+    <View style={LoginStyles.layout}>
+      <Text style={LoginStyles.title}>Coming Soon</Text>
+    </View>
+  );
+};
+
+const Stack = createStackNavigator();
+
+const MainNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen}></Tab.Screen>
+      <Tab.Screen name="Feed" component={FeedScreen}></Tab.Screen>
+      <Tab.Screen name="Catalog" component={CatalogScreen}></Tab.Screen>
+      <Tab.Screen name="Account" component={AccountScreen}></Tab.Screen>
+      <Tab.Screen name="HomeShowing" component={HomeShowing}></Tab.Screen>
+    </Tab.Navigator>
+  );
+};
+
+const SignInScreen = (props) => {
+  return (
+    <View style={LoginStyles.layout}>
+      <Text style={LoginStyles.title}></Text>
+      <Button
+        title="Sign In"
+        onPress={() => props.navigation.navigate("SignUp")}
+      ></Button>
+    </View>
+  );
+};
+
+const SignUpScreen = (props) => {
+  const navigation = useNavigation();
+  return (
+    <View style={LoginStyles.layout}>
+      <Text style={LoginStyles.title}></Text>
+      <Button
+        title="Continue"
+        onPress={() => navigation.navigate("Main")}
+      ></Button>
+    </View>
+  );
+};
+
+const Login = () => (
+  <NavigationContainer headerMode="none">
+    <Stack.Navigator>
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="Main" component={MainNavigator} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
 const styles = StyleSheet.create({
   avatar: {
@@ -101,8 +195,22 @@ const woofPostStyles = StyleSheet.create({
   },
 });
 
+const LoginStyles = StyleSheet.create({
+  layout: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 8,
+  },
+  title: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
+
 // The screen rendering everything
-const HomeScreen = () => (
+const HomeFeed = () => (
   <ScrollView>
     <Heading>Trending Woofs</Heading>
     <ScrollView horizontal>
@@ -124,7 +232,7 @@ const HomeScreen = () => (
 
 const App = () => (
   <SafeAreaView style={{ flex: 1, backgroundColor: "#FAF9FA" }}>
-    <HomeScreen />
+    <Login />
   </SafeAreaView>
 );
 
